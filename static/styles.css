@@ -10,3 +10,18 @@ body {
     flex-direction: column;
     min-height: 100%;
 }
+
+h1 {
+    color: #fffffe;
+    font-family: 'Montserrat';
+    padding-top: 20px;
+    text-align: center;
+}
+
+#slogan {
+    color: #f25f4c;
+    text-align: center;
+    font-family: 'Inter';
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e53170;
+}

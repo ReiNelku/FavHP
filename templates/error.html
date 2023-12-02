@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    : Error ({{code}})
+{% endblock %}
+
+{% block main %}
+    <!-- API link : https://memegen.link/ -->
+    <img alt="{{ code }}" class="border img-fluid" src="http://memegen.link/custom/{{ code }}/{{ reason }}.jpg?alt=https://thumbs.dreamstime.com/z/listen-to-sad-music-concept-headphones-sad-smile-listen-to-sad-music-concept-98670517.jpg?w=400&width=600" title="{{ code }}">
+{% endblock %}

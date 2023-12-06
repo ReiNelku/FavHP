@@ -29,5 +29,15 @@ def register():
         elif not confirmation:
             return render_template("error.html", code="400", reason="must-type-your-password-again")
         
+        # Query database for user
+        user = db.execute("SELECT * FROM users WHERE username = ? AND email = ?", username, email)
+
+        # Check if user already exists
+        if len(user) != 0:
+            return render_template("error.html", code="400", reason="user-already-exists")
+
+        # Check if password and password confirmation match
+        if not password == confirmation:
+            return render_template("error.html", code="400", reason="passwords-do-not-match")
     else:
         return render_template("register.html")

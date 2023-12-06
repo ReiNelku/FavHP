@@ -1,6 +1,7 @@
 from cs50 import SQL
 from flask import abort, Flask, redirect, render_template, request, session
 from flask_session import Session
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # Configure application
 app = Flask(__name__)
@@ -39,5 +40,14 @@ def register():
         # Check if password and password confirmation match
         if not password == confirmation:
             return render_template("error.html", code="400", reason="passwords-do-not-match")
+
+        # Create a new user in database
+        user = db.execute("INSERT INTO users (username, email, hash) VALUES(?, ?, ?)", username, email, generate_password_hash("password"))
+
+        # Log in with the newly created user
+        session["user_id"] = id
+
+        # Redirect user to homepage
+        return redirect("/")
     else:
         return render_template("register.html")

@@ -1,5 +1,5 @@
 from cs50 import SQL
-from flask import abort, Flask, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from helpers import login_required
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -90,6 +90,7 @@ def login():
     else:
         return render_template("login.html")
 
+
 @app.route("/logout")
 def logout():
     # Logout the user
@@ -97,6 +98,55 @@ def logout():
 
     # Redirect user to homepage
     return redirect("/")
+
+
+@app.route("/password", methods=["GET", "POST"])
+@login_required
+def password():
+    # Change user password
+    if request.method == "POST":
+        current = request.form.get("current")
+        new = request.form.get("new")
+        confirmation = request.form.get("confirmation")
+
+        # Check if current password is submitted
+        if not current:
+            return render_template("error.html", code="400", reason="must-provide-current-password")
+        # Check if new password is submitted
+        elif not new:
+            return render_template("error.html", code="400", reason="must-provide-new-password")
+        # Check if password confirmation is submitted
+        elif not confirmation:
+            return render_template("error.html", code="400", reason="must-provide-password-confirmation")
+
+        # Get current user's password hash
+        current_hash = db.execute("SELECT hash FROM users WHERE id = ?", session["user_id"])
+
+        # Check if user has inputted correct password
+        if not check_password_hash(current_hash[0]["hash"], current):
+            return render_template("error.html", code="400", reason="invalid-password")
+
+        # Check if new and old passwords are the same
+        if current == new:
+            return render_template("error.html", code="400", reason="new-and-old-passwords-are-the-same")
+
+        # Check if new password and password confirmation match
+        if not new == confirmation:
+            return render_template("error.html", code="400", reason="new-passwords-do-not-match")
+
+        # Generate hash for new password
+        new_hash = generate_password_hash(new)
+
+        # Update user password
+        db.execute("UPDATE users SET hash = ? WHERE id = ?", new_hash, session["user_id"])
+
+        # Log out user
+        session.clear()
+
+        return redirect("/") 
+    else:
+        return render_template("password.html")
+
 
 @app.route("/", methods=["GET", "POST"])
 @login_required

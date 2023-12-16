@@ -1,6 +1,7 @@
 from cs50 import SQL
 from flask import abort, Flask, redirect, render_template, request, session
 from flask_session import Session
+from helpers import login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Configure application
@@ -96,3 +97,11 @@ def logout():
 
     # Redirect user to homepage
     return redirect("/")
+
+@app.route("/", methods=["GET", "POST"])
+@login_required
+def index():
+    if request.method == "POST":
+        ...
+    else:
+        return render_template("index.html")

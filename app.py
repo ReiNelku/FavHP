@@ -217,3 +217,12 @@ def index():
         return render_template(
             "index.html", headphones=headphones, manufacturer_list=manufacturer_list
         )
+
+
+@app.route("/ranking")
+@login_required
+def ranking():
+    # Query database for a headphone ranking by votes
+    headphone_ranking = db.execute("SELECT COUNT(users.preference_id) AS votes, manufacturer.name AS manufacturer, headphones.model AS model FROM headphones INNER JOIN users ON headphones.id = users.preference_id INNER JOIN manufacturer ON headphones.manufacturer_id = manufacturer.id ORDER BY votes")
+
+    return render_template("ranking.html", headphone_ranking=headphone_ranking)

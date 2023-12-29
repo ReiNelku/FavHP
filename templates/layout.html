@@ -18,6 +18,11 @@
     </head>
     <body>
         <header>
+            {% if get_flashed_messages() %}
+            <div class="alert alert-primary mb-0 text-center" role="alert">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+            {% endif %}
             <h1>FavHP</h1>
             <p id="slogan">#HeadphonePopularityContest</p>
         </header>

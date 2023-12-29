@@ -73,6 +73,9 @@ def register():
         # Log in with the newly created user
         session["user_id"] = id
 
+        # Notify that user registration is successful
+        flash("Registered!")
+
         # Redirect user to homepage
         return redirect("/")
     else:
@@ -115,6 +118,9 @@ def login():
         # Remember logged in user
         session["user_id"] = user[0]["id"]
 
+        # Notify user for successfuly logging in
+        flash("Logged In!")
+
         # Redirect user to homepage
         return redirect("/")
     else:
@@ -125,6 +131,9 @@ def login():
 def logout():
     # Logout the user
     session.clear()
+
+    # Notify user for successfuly logging out
+    flash("Logged Out!")
 
     # Redirect user to homepage
     return redirect("/")
@@ -187,6 +196,10 @@ def password():
         # Log out user
         session.clear()
 
+        # Notify user that password is successfuly changed
+        flash("Password Changed!")
+
+        # Redirect to homepage
         return redirect("/")
     else:
         return render_template("password.html")
@@ -212,6 +225,11 @@ def index():
             preference,
             session["user_id"],
         )
+
+        # Notify user that the vote was successful
+        flash("Successful!")
+
+        # Redirect to homepage
         return redirect("/")
     else:
         return render_template(

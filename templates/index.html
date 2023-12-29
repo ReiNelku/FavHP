@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
@@ -19,12 +19,41 @@
               Account
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/password">Change Password</a></li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              <li><a class="dropdown-item" href="/password">Change Password</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <section>
+    {% for manufacturer in manufacturer_list %}
+      <h2>{{ manufacturer.name }}</h2>
+      {% for headphone in headphones %}
+        {% if headphone.manufacturer == manufacturer.name %}
+          <form action="/" method="post">
+            <div class="card" style="width: 18rem;">
+              <img src="/static/{{ headphone.image }}" class="card-img-top" alt="{{ headphone.model }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ manufacturer.name }} {{ headphone.model }}</h5>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Connectivity: {{ headphone.connectivity }}</li>
+                  <li class="list-group-item">Form Factor: {{ headphone.form_factor }}</li>
+                  <li class="list-group-item">Openness: {{ headphone.openness }}</li>
+                  <li class="list-group-item">Driver: {{ headphone.driver }}</li>
+                  {% if headphone.sensitivity != 0 %}
+                  <li class="list-group-item">Sensitivity: {{ headphone.sensitivity }} {{ headphone.sens_unit }}</li>
+                  <li class="list-group-item">Impedance: {{ headphone.impedance }}</li>
+                  {% endif %}
+                  <li class="list-group-item">Weight: {{ headphone.weight }} g</li>
+                </ul>
+                <button class="btn btn-primary" name="vote" type="submit" value="{{ headphone.id }}">Vote</button>
+              </div>
+            </div>
+          </form>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </section>
 {% endblock %}

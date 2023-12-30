@@ -272,6 +272,16 @@ def ranking():
     )
 
     # Query database for user favourite model
-    user_preference = db.execute("SELECT model FROM headphones WHERE id = (SELECT preference_id FROM users WHERE id = ?)", session["user_id"])
+    if user_preference := db.execute(
+        "SELECT model FROM headphones WHERE id = (SELECT preference_id FROM users WHERE id = ?)",
+        session["user_id"],
+    ):
+        user_preference = user_preference[0]["model"]
+    else:
+        user_preference = None
 
-    return render_template("ranking.html", headphone_ranking=headphone_ranking, user_preference=user_preference[0]["model"])
+    return render_template(
+        "ranking.html",
+        headphone_ranking=headphone_ranking,
+        user_preference=user_preference,
+    )

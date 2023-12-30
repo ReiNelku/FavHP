@@ -1,5 +1,5 @@
 from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from helpers import login_required
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -241,6 +241,8 @@ def index():
 @login_required
 def ranking():
     # Query database for a headphone ranking by votes
-    headphone_ranking = db.execute("SELECT COUNT(users.preference_id) AS votes, manufacturer.name AS manufacturer, headphones.model AS model FROM headphones INNER JOIN users ON headphones.id = users.preference_id INNER JOIN manufacturer ON headphones.manufacturer_id = manufacturer.id ORDER BY votes")
+    headphone_ranking = db.execute(
+        "SELECT COUNT(users.preference_id) AS votes, manufacturer.name AS manufacturer, headphones.model AS model FROM headphones INNER JOIN users ON headphones.id = users.preference_id INNER JOIN manufacturer ON headphones.manufacturer_id = manufacturer.id GROUP BY model ORDER BY votes DESC"
+    )
 
     return render_template("ranking.html", headphone_ranking=headphone_ranking)

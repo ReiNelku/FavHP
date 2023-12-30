@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block main %}
-    <!-- API link : https://memegen.link/ -->
-    <img alt="{{ code }}" class="border img-fluid" src="http://memegen.link/custom/{{ code }}/{{ reason }}.jpg?alt=https://thumbs.dreamstime.com/z/listen-to-sad-music-concept-headphones-sad-smile-listen-to-sad-music-concept-98670517.jpg?w=400&width=600" title="{{ code }}">
+    <div class="form">
+        <!-- API link : https://memegen.link/ -->
+        <img alt="{{ code }}" class="border img-fluid" src="http://memegen.link/custom/{{ code }}/{{ reason }}.jpg?alt=https://thumbs.dreamstime.com/z/listen-to-sad-music-concept-headphones-sad-smile-listen-to-sad-music-concept-98670517.jpg?w=400&width=600" title="{{ code }}">
+        <a class="btn btn-primary" href="/" role="button">Go Home</a>
+    </div>
+
+
 {% endblock %}

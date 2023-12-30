@@ -29,8 +29,8 @@ h1 {
 .form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     align-items: center;
+    gap: 10px;
 }
 
 .mb-3 {
@@ -81,4 +81,10 @@ a {
     --bs-btn-active-border-color: #f25f4c;
     --bs-btn-disabled-bg: #f25f4c;
     --bs-btn-disabled-border-color: #f25f4c;
+}
+
+.error {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }

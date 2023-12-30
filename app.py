@@ -71,7 +71,7 @@ def register():
         )
 
         # Log in with the newly created user
-        session["user_id"] = id
+        session["user_id"] = user
 
         # Notify that user registration is successful
         flash("Registered!")
@@ -199,6 +199,38 @@ def password():
         return render_template("password.html")
 
 
+@app.route("/delete", methods=["GET", "POST"])
+@login_required
+def delete():
+    # Delete user account
+    if request.method == "POST":
+        password = request.form.get("password")
+
+        # Check if password is submitted
+        if not password:
+            return render_template(
+                "error.html", code="400", reason="must-provide-password"
+            )
+
+        # Get user information from database
+        user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+
+        # Check if password is correct
+        if not check_password_hash(user[0]["hash"], password):
+            return render_template("error.html", code="400", reason="invalid-password")
+
+        # Delete user from database
+        db.execute("DELETE FROM users WHERE id = ?", session["user_id"])
+
+        # Log out user
+        session.clear()
+
+        # Redirect to homepage
+        return redirect("/")
+    else:
+        return render_template("delete.html")
+
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -211,20 +243,20 @@ def index():
 
     if request.method == "POST":
         # Get user preference
-        preference = request.form["vote"]
+        vote = request.form["vote"]
 
         # Update database with user preference
         db.execute(
             "UPDATE users SET preference_id = ? WHERE id = ?",
-            preference,
+            vote,
             session["user_id"],
         )
 
         # Notify user that the vote was successful
         flash("Successful!")
 
-        # Redirect to homepage
-        return redirect("/")
+        # Redirect to ranking table
+        return redirect("/ranking")
     else:
         return render_template(
             "index.html", headphones=headphones, manufacturer_list=manufacturer_list

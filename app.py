@@ -132,9 +132,6 @@ def logout():
     # Logout the user
     session.clear()
 
-    # Notify user for successfuly logging out
-    flash("Logged Out!")
-
     # Redirect user to homepage
     return redirect("/")
 
@@ -196,9 +193,6 @@ def password():
         # Log out user
         session.clear()
 
-        # Notify user that password is successfuly changed
-        flash("Password Changed!")
-
         # Redirect to homepage
         return redirect("/")
     else:
@@ -242,7 +236,7 @@ def index():
 def ranking():
     # Query database for a headphone ranking by votes
     headphone_ranking = db.execute(
-        "SELECT COUNT(users.preference_id) AS votes, manufacturer.name AS manufacturer, headphones.model AS model FROM headphones INNER JOIN users ON headphones.id = users.preference_id INNER JOIN manufacturer ON headphones.manufacturer_id = manufacturer.id GROUP BY model ORDER BY votes DESC"
+        "SELECT COUNT(users.preference_id) AS votes, manufacturer.name AS manufacturer, headphones.model AS model FROM headphones INNER JOIN users ON headphones.id = users.preference_id INNER JOIN manufacturer ON headphones.manufacturer_id = manufacturer.id GROUP BY model ORDER BY votes DESC, manufacturer, model"
     )
 
     return render_template("ranking.html", headphone_ranking=headphone_ranking)

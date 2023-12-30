@@ -90,6 +90,7 @@ a {
     --bs-navbar-hover-bg: #f25f4c;
     --bs-navbar-hover-border-color: #f25f4c;
     --bs-navbar-active-color: #f25f4c;
+    font-family: "Montserrat";
 }
 
 .navbar-toggler {

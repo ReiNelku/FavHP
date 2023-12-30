@@ -48,6 +48,14 @@ a {
     --bs-alert-border-color: #fffffe;
 }
 
+.alert-primary {
+    --bs-alert-color: #fffffe;
+    --bs-alert-bg: #ff8906;
+    --bs-alert-border-color: #ff8906;
+    --bs-alert-link-color: #fffffe;
+    --bs-alert-border-radius: 0;
+}
+
 .btn-primary {
     --bs-btn-color: #fffffe;
     --bs-btn-bg: #ff8906;

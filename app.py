@@ -271,4 +271,7 @@ def ranking():
         "SELECT COUNT(users.preference_id) AS votes, manufacturer.name AS manufacturer, headphones.model AS model FROM headphones INNER JOIN users ON headphones.id = users.preference_id INNER JOIN manufacturer ON headphones.manufacturer_id = manufacturer.id GROUP BY model ORDER BY votes DESC, manufacturer, model"
     )
 
-    return render_template("ranking.html", headphone_ranking=headphone_ranking)
+    # Query database for user favourite model
+    user_preference = db.execute("SELECT model FROM headphones WHERE id = (SELECT preference_id FROM users WHERE id = ?)", session["user_id"])
+
+    return render_template("ranking.html", headphone_ranking=headphone_ranking, user_preference=user_preference[0]["model"])

@@ -20,7 +20,11 @@
                 <th scope="row">{{ loop.index }}</th>
                 <td>{{ headphone.manufacturer }}</td>
                 <td>{{ headphone.model }}</td>
-                <td>{{ headphone.votes}}</td>
+                {% if headphone.model == user_preference %}
+                <td>{{ headphone.votes }} (FavHP)</td>
+                {% else %}
+                <td>{{ headphone.votes }}</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

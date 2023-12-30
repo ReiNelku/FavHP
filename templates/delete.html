@@ -5,14 +5,14 @@
 {% endblock %}
 
 {% block main %}
-    <div class="alert alert-warning" role="alert">
-        Are you sure? Deletion of account is <strong>PERMANENT</strong>!
-    </div>
-    <form action="/delete" method="post">
+    <form action="/delete" class="form" method="post">
+        <div class="alert alert-warning" role="alert">
+            Are you sure? Deletion of account is <strong>PERMANENT</strong>!
+        </div>
         <div class="mb-3">
             <label for="password" class="form-label">Type your password for confirmation</label>
             <input type="password" id="password" class="form-control" name="password">
         </div>
-        <button class="btn btn-primary" type="submit">Delete Account</button>
+        <button class="btn btn-danger" type="submit">Delete Account</button>
     </form>
 {% endblock %}
